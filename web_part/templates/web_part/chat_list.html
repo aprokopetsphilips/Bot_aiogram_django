@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ghbdddd</title>
+</head>
+<body>
+{%for i in All_people%}
+<ul>
+    <hr>
+    Время: {{i.time_chat}}
+    Имя пользователя: {{i.account}} <br>
+    Сообщение: {{i.message|linebreaksbr|safe}}
+    Номер аккаунта: {{i.account.user_num}}
+</ul>
+{%endfor%}
+</body>
+</html>
