@@ -1,23 +1,29 @@
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>ghbdddd</title>
 </head>
 <body>
-{%for i in All_people%}
-<ul>
-    <hr>
-    <span class="time_chat">Время: {{i.time_chat}}</span>
-    <span class="account">Имя пользователя: {{i.account}} </span><br>
-    <span class="user_num">Номер аккаунта: {{i.account.user_num}}</span> <br>
-    <span class="message">Сообщение: {{i.message|linebreaksbr|safe}}</span>
+    <form method="GET">
+        {{ form.as_p }}
+        <button type="submit">Фильтровать</button>
+    </form>
 
-</ul>
-{%endfor%}
+    {% if All_people %}
+        <ul>
+            {% for i in All_people %}
+                <hr>
+                <span class="time_chat">Время: {{ i.time_chat }}</span>
+                <span class="account">Имя пользователя: {{ i.account }} </span><br>
+                <span class="user_num">Номер аккаунта: {{ i.account.user_num }}</span> <br>
+                <span class="message">Сообщение: {{ i.message|linebreaksbr|safe }}</span>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет данных</p>
+    {% endif %}
 </body>
 </html>
