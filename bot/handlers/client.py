@@ -27,8 +27,8 @@ async def command_start(message: types.Message):
         response_message = 'Обратитесь к боту в ЛС: /n здесь дб ссылка'
         await message.reply(message.from_user.id,
                                response_message, reply_markup=kb_client)
-    await insert_data(message.from_user.id, message.from_user.last_name, message.text)
-    await insert_data(message.from_user.id, message.from_user.last_name, response_message)
+    await insert_data(message.from_user.id, message.from_user.full_name, message.text)
+    await insert_data(message.from_user.id, message.from_user.full_name, response_message)
 
 # @dp.message_handler(commands=['help'])
 async def command_help(message: types.Message):
@@ -37,14 +37,14 @@ async def command_help(message: types.Message):
         await bot.send_message(message.from_user.id, response_message)
         # print(message.from_user.id, message.from_user.last_name, message.text)
         # print(type(message.from_user.id))
-        await insert_data(message.from_user.id, message.from_user.last_name, message.text)
-        await insert_data(message.from_user.id, message.from_user.last_name, response_message)
+        await insert_data(message.from_user.id, message.from_user.full_name, message.text)
+        await insert_data(message.from_user.id, message.from_user.full_name, response_message)
     except:
         pass
 
 async def get_weather(message: types.Message):
     await bot.send_message(message.from_user.id, 'Пожалуйста, введите город')
-    await insert_data(message.from_user.id, message.from_user.last_name, message.text)
+    await insert_data(message.from_user.id, message.from_user.full_name, message.text)
 async def answer_weather(message: types.Message):
     cenz_json_path = os.path.join(BASE_DIR, 'bot', 'cenz.json')
     if {x.lower().translate(str.maketrans('', '', string.punctuation)) for x in message.text.split(' ')}.intersection(set(json.load(open(cenz_json_path,'r', encoding='utf-8')))):
@@ -66,14 +66,14 @@ async def answer_weather(message: types.Message):
             response_message = 'Эх, такой город еще не создан в 21 веке'
             await bot.send_message(message.from_user.id, response_message)
 
-    await insert_data(message.from_user.id, message.from_user.last_name, message.text)
-    await insert_data(message.from_user.id, message.from_user.last_name, response_message)
+    await insert_data(message.from_user.id, message.from_user.full_name, message.text)
+    await insert_data(message.from_user.id, message.from_user.full_name, response_message)
 
 async def get_news(message: types.Message):
     response_message = get_fresh_news()
     await bot.send_message(message.from_user.id, response_message[:4000])
-    await insert_data(message.from_user.id, message.from_user.last_name, message.text)
-    await insert_data(message.from_user.id, message.from_user.last_name, response_message)
+    await insert_data(message.from_user.id, message.from_user.full_name, message.text)
+    await insert_data(message.from_user.id, message.from_user.full_name, response_message)
 
 @sync_to_async
 def insert_data(user_id, user_name, user_message):
