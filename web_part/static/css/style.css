@@ -1,0 +1,42 @@
+/* Обертываем теги селекторами */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+ul {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ul hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+ul span.time_chat {
+    color: #555;
+    font-size: 14px;
+}
+
+ul span.account {
+    font-weight: normal;
+    color: #333;
+    font-size: 14px;
+}
+
+ul span.message {
+    font-size: 14px;
+    color: #000;
+}
+
+ul span.user_num {
+    color: #888;
+    font-size: 14px;
+}
