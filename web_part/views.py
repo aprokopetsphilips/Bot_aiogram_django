@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
-from bot.models import Chat
-from .forms import UserFilterForm
+from bot.models import Chat, Command
+from .forms import UserFilterForm, CommandForm
 
 
 # Create your views here.
@@ -48,3 +48,31 @@ class ChatListView(ListView):
 # базового контекста.
 # context['form'] = self.form: Затем он добавляет форму self.form (которая создается из класса UserFilterForm) в контекст под ключом 'form'.
 # return context: Наконец, метод возвращает контекст, который будет доступен в вашем шаблоне для отображения данных и формы.
+
+def command_list(request):
+    commands = Command.objects.all()
+    return render(request, 'web_part/command_list.html', {'commands': commands})
+
+def edit_command(request, command_id):
+    command = get_object_or_404(Command, pk=command_id)
+
+    if request.method == 'POST':
+        form = CommandForm(request.POST, instance=command)
+        if form.is_valid():
+            form.save()
+            return redirect('command_list')  # Перенаправление на список команд после успешного редактирования
+    else:
+        form = CommandForm(instance=command)
+
+    return render(request, 'web_part/edit_command.html', {'form': form})
+
+def create_command(request):
+    if request.method == 'POST':
+        form = CommandForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('command_list')  # Перенаправление на список команд после успешного создания
+    else:
+        form = CommandForm()
+
+    return render(request, 'web_part/create_command.html', {'form': form})

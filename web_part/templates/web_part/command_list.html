@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Command List</title>
+</head>
+<body>
+    <h1>Command List</h1>
+    <ul>
+        {% for command in commands %}
+            <li>
+                {{ command.name }} - {{ command.description }}
+                <a href="{% url 'edit_command' command.id %}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

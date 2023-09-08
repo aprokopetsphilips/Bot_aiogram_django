@@ -6,34 +6,37 @@ import requests
 from bot.create_bot import bot, API
 from aiogram import types, Dispatcher
 from bot.keyboards.client_kb import kb_client
-from bot.models import Account, Chat
+from bot.models import Account, Chat, Command
 from bot.news import get_fresh_news
 from asgiref.sync import sync_to_async
 
 from my_project.settings import BASE_DIR
 
 
-# /start - бот приветствует пользователя и рассказывает о своих функциях.
-# /help - бот выводит список доступных команд.
-
 # @dp.message_handler(commands=['start'])
+
+@sync_to_async
+def get_command_description(command_name):
+    try:
+        return Command.objects.get(name=command_name).description
+    except Command.DoesNotExist:
+        return None
 async def command_start(message: types.Message):
     try:
-        response_message = 'Приветствую тебя, дорогой гость!Я могу тебе помочь с погодой в указанном тобой городе или с получениме интересных новостей'
+        response_message = await get_command_description('command_start')
         await bot.send_message(message.from_user.id,
                                response_message, reply_markup=kb_client)
         # await message.delete()
     except:
         response_message = 'Обратитесь к боту в ЛС: /n здесь дб ссылка'
-        await message.reply(message.from_user.id,
-                               response_message, reply_markup=kb_client)
+        await message.reply(message.from_user.id, response_message, reply_markup=kb_client)
     await insert_data(message.from_user.id, message.from_user.full_name, message.text)
     await insert_data(message.from_user.id, message.from_user.full_name, response_message)
 
 # @dp.message_handler(commands=['help'])
 async def command_help(message: types.Message):
     try:
-        response_message = 'Узнать погоду - нажмите - weather, свежие новости - news, начальная страница - start'
+        response_message = await get_command_description('command_help')
         await bot.send_message(message.from_user.id, response_message)
         # print(message.from_user.id, message.from_user.last_name, message.text)
         # print(type(message.from_user.id))
@@ -108,9 +111,8 @@ def insert_data(user_id, user_name, user_message):
     except Exception as e :
         print(e)
 def register_handler(dp: Dispatcher):
-    dp.register_message_handler(command_start,commands=['start'])
-    dp.register_message_handler(command_help, commands=['help'])
+    dp.register_message_handler(command_start,commands=[Command.objects.get(name='command_start').keyword])
+    dp.register_message_handler(command_help,commands=[Command.objects.get(name='command_help').keyword])
     dp.register_message_handler(get_weather, commands=['weather'])
     dp.register_message_handler(get_news, commands=['news'])
     dp.register_message_handler(answer_weather)
-

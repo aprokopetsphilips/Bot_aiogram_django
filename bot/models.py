@@ -19,3 +19,10 @@ class Chat(models.Model):
         return self.message
 
 
+class Command(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    keyword = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
