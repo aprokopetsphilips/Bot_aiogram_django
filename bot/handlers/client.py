@@ -113,6 +113,6 @@ def insert_data(user_id, user_name, user_message):
 def register_handler(dp: Dispatcher):
     dp.register_message_handler(command_start,commands=[Command.objects.get(name='command_start').keyword])
     dp.register_message_handler(command_help,commands=[Command.objects.get(name='command_help').keyword])
-    dp.register_message_handler(get_weather, commands=['weather'])
-    dp.register_message_handler(get_news, commands=['news'])
+    dp.register_message_handler(get_weather,commands=[Command.objects.get(name='get_weather').keyword])
+    dp.register_message_handler(get_news, commands=[Command.objects.get(name='get_news').keyword])
     dp.register_message_handler(answer_weather)
