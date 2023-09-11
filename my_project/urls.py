@@ -17,13 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from web_part.views import ChatListView, command_list, edit_command, create_command
+from web_part.views import ChatListView, command_list, edit_command
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ChatListView.as_view(), name='home'),
     path('command_list/', command_list, name='command_list'),
     path('edit_command/<int:command_id>/', edit_command, name='edit_command'),
-    path('create_command/', create_command, name='create_command'),
+    # path('create_command/', create_command, name='create_command'),
 
 ]

@@ -21,6 +21,13 @@ def get_command_description(command_name):
         return Command.objects.get(name=command_name).description
     except Command.DoesNotExist:
         return None
+@sync_to_async
+def get_negative_command_description(command_name):
+    try:
+        return Command.objects.get(name=command_name).negative
+    except Command.DoesNotExist:
+        return None
+
 async def command_start(message: types.Message):
     try:
         response_message = await get_command_description('command_start')
@@ -28,7 +35,7 @@ async def command_start(message: types.Message):
                                response_message, reply_markup=kb_client)
         # await message.delete()
     except:
-        response_message = 'Обратитесь к боту в ЛС: /n здесь дб ссылка'
+        response_message = await get_negative_command_description('command_start')
         await message.reply(message.from_user.id, response_message, reply_markup=kb_client)
     await insert_data(message.from_user.id, message.from_user.full_name, message.text)
     await insert_data(message.from_user.id, message.from_user.full_name, response_message)
@@ -46,7 +53,8 @@ async def command_help(message: types.Message):
         pass
 
 async def get_weather(message: types.Message):
-    await bot.send_message(message.from_user.id, 'Пожалуйста, введите город')
+    response_message = await get_command_description('get_weather')
+    await bot.send_message(message.from_user.id, response_message)
     await insert_data(message.from_user.id, message.from_user.full_name, message.text)
 async def answer_weather(message: types.Message):
     cenz_json_path = os.path.join(BASE_DIR, 'bot', 'cenz.json')
@@ -66,17 +74,20 @@ async def answer_weather(message: types.Message):
             # bot.send_photo(message.chat.id, file)
 
         else:
-            response_message = 'Эх, такой город еще не создан в 21 веке'
+            response_message = await get_negative_command_description('get_weather')
             await bot.send_message(message.from_user.id, response_message)
 
     await insert_data(message.from_user.id, message.from_user.full_name, message.text)
     await insert_data(message.from_user.id, message.from_user.full_name, response_message)
 
 async def get_news(message: types.Message):
-    response_message = get_fresh_news()
-    await bot.send_message(message.from_user.id, response_message[:4000])
-    await insert_data(message.from_user.id, message.from_user.full_name, message.text)
-    await insert_data(message.from_user.id, message.from_user.full_name, response_message)
+    try:
+        response_message = await get_fresh_news()
+        await bot.send_message(message.from_user.id, response_message[:4000])
+        await insert_data(message.from_user.id, message.from_user.full_name, message.text)
+        await insert_data(message.from_user.id, message.from_user.full_name, response_message)
+    except:
+        response_message = await get_negative_command_description('get_news')
 
 @sync_to_async
 def insert_data(user_id, user_name, user_message):

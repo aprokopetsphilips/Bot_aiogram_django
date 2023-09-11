@@ -11,4 +11,9 @@ class UserFilterForm(forms.Form):
 class CommandForm(forms.ModelForm):
     class Meta:
         model = Command
-        fields = ['name', 'keyword', 'description']
+        fields = ['name', 'keyword', 'description', 'negative']
+
+    def __init__(self, *args, **kwargs):
+        super(CommandForm, self).__init__(*args, **kwargs)
+        # Добавляем атрибут disabled для поля name
+        self.fields['name'].widget.attrs['readonly'] = True

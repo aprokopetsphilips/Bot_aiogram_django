@@ -17,16 +17,8 @@ async def on_startup(_):
     print('hello')
 
 
-
 client.register_handler(dp)
 other.register_handler_other(dp)
-
-
-# executor.start_polling(dp,
-#                        skip_updates=True, on_startup=on_startup)  # executor- модуль в aiogram.utils, который предоставляет методы для запуска бота.
-# # start_polling(dp, skip_updates=True): Этот метод запускает опрос бота, принимая два аргумента:
-# # dp: Объект Dispatcher (диспетчер), который управляет обработкой входящих событий и их распределением по соответствующим обработчикам.
-# # skip_updates=True: Этот параметр указывает, что необходимо пропустить обработку старых обновлений, которые могли накопиться в момент запуска бота.
 
 
 class Command(BaseCommand):

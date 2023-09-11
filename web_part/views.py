@@ -7,13 +7,9 @@ from .forms import UserFilterForm, CommandForm
 
 # Create your views here.
 
-
 class ChatListView(ListView):
     model = Chat
     template_name = 'web_part/chat_list.html'
-    # form_class = FeedbackForm
-    # template_name = 'feedback/feedback.html'
-    # success_url = '/done'
     context_object_name = 'All_people'  # имя которое используем в шаблоне
     form = UserFilterForm()
 
@@ -66,13 +62,13 @@ def edit_command(request, command_id):
 
     return render(request, 'web_part/edit_command.html', {'form': form})
 
-def create_command(request):
-    if request.method == 'POST':
-        form = CommandForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('command_list')  # Перенаправление на список команд после успешного создания
-    else:
-        form = CommandForm()
-
-    return render(request, 'web_part/create_command.html', {'form': form})
+# def create_command(request):
+#     if request.method == 'POST':
+#         form = CommandForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('command_list')  # Перенаправление на список команд после успешного создания
+#     else:
+#         form = CommandForm()
+#
+#     return render(request, 'web_part/create_command.html', {'form': form})
