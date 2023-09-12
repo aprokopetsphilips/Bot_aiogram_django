@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <title>Общая база чата</title>
+{% extends 'web_part/base.html' %}
 </head>
 <body>
+{% block content %}
     <form method="GET">
         {{ form.as_p }}
         <button type="submit">Фильтровать</button>
@@ -25,5 +20,4 @@
     {% else %}
         <p>Нет данных</p>
     {% endif %}
-</body>
-</html>
+{% endblock content %}

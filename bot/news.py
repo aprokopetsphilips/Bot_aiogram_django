@@ -1,12 +1,9 @@
 import random
-from random import choice
-
 import requests
 from bs4 import BeautifulSoup
 
-import lxml
 
-
+# определение функции парсера новостей
 def get_fresh_news():
     schema = 'http://www.patriarchia.ru/'
     response = requests.get('http://www.patriarchia.ru/db/news/')

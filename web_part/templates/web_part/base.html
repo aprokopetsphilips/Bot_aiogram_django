@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <meta charset="UTF-8">
+    {% block title %}
+    {% endblock title %}
+
+    {% block mainmenu %}
+    {% if request.user.is_authenticated %}
+        <h3 class="account"> <a href="{% url 'home' %}">Home</a> </h3>
+        <h3 class="account"> {{user.username}} | <a href="{% url 'logout' %}">Выйти</a></h3>
+        <h3 class="account"> <a href="{% url 'command_list' %}">Отобразить все команды</a> </h3>
+    {% else %}
+        <h3 class="account"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></h3>
+    {% endif %}
+    {% endblock mainmenu %}
+
+</head>
+<body>
+{% block content %}
+{% endblock content %}
+</body>
+</html>

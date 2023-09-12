@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_project.settings')
 import django
 django.setup()
 from bot.create_bot import dp
-from aiogram import executor  # для запуска бота
+from aiogram import executor
 
 
 

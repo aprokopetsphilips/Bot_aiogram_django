@@ -1,8 +1,12 @@
+from aiogram.utils.mixins import DataMixin
+from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
 
 from bot.models import Chat, Command
-from .forms import UserFilterForm, CommandForm
+from .forms import UserFilterForm, CommandForm, RegisterUserForm, LoginUserForm
 
 
 # Create your views here.
@@ -62,13 +66,27 @@ def edit_command(request, command_id):
 
     return render(request, 'web_part/edit_command.html', {'form': form})
 
-# def create_command(request):
-#     if request.method == 'POST':
-#         form = CommandForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('command_list')  # Перенаправление на список команд после успешного создания
-#     else:
-#         form = CommandForm()
-#
-#     return render(request, 'web_part/create_command.html', {'form': form})
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'web_part/register.html'
+    success_url = reverse_lazy('login')
+
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+class LoginUser( LoginView):
+    form_class = LoginUserForm
+    template_name = 'web_part/login.html'
+
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

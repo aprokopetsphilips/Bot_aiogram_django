@@ -1,5 +1,4 @@
-from aiogram import Bot, Dispatcher  # улавливает события в чате
-
+from aiogram import Bot, Dispatcher
 from my_project.settings import api, token
 
 bot = Bot(token)

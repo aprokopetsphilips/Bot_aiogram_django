@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from bot.models import Account, Chat, Command
 
-
 # Register your models here.
 @admin.register(Account)
 class PostAdmin(admin.ModelAdmin):
